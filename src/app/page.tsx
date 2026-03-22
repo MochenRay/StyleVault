@@ -1,65 +1,111 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight } from "lucide-react";
+import { componentCategories, templateCategories } from "@/data/navigation";
+import type { NavItem } from "@/data/navigation";
 
-export default function Home() {
+function CategoryCard({ item }: { item: NavItem }) {
+  const Icon = item.icon;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <Link
+      href={item.comingSoon ? "#" : item.href}
+      className={`card-glow group relative flex flex-col gap-3 rounded-xl border border-border/50 bg-card p-5 transition-all ${
+        item.comingSoon
+          ? "pointer-events-none opacity-50"
+          : "hover:-translate-y-0.5"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+          <Icon className="h-5 w-5 text-primary" />
+        </div>
+        {item.comingSoon ? (
+          <Badge variant="secondary" className="text-xs">
+            即将推出
+          </Badge>
+        ) : item.count ? (
+          <Badge className="bg-primary/15 text-primary border-0 text-xs">
+            {item.count} 个组件
+          </Badge>
+        ) : null}
+      </div>
+      <div>
+        <h3 className="font-medium text-foreground">{item.title}</h3>
+        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+          {item.description}
+        </p>
+      </div>
+      {!item.comingSoon && (
+        <div className="mt-auto flex items-center gap-1 text-sm text-primary opacity-0 transition-opacity group-hover:opacity-100">
+          浏览 <ArrowRight className="h-3.5 w-3.5" />
+        </div>
+      )}
+    </Link>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <div className="noise-bg grid-bg bg-background transition-colors duration-300">
+      {/* Hero */}
+      <section className="relative flex flex-col items-center justify-center px-6 py-28 text-center">
+        <div className="relative z-10">
+          <p className="mb-4 text-sm font-medium uppercase tracking-widest text-primary">
+            前端视觉参考库
+          </p>
+          <h1
+            className="bg-gradient-to-b from-foreground via-foreground/90 to-foreground/50 bg-clip-text font-bold tracking-tighter text-transparent"
+            style={{
+              fontSize: "clamp(3rem, 8vw, 7rem)",
+              lineHeight: 1.05,
+            }}
+          >
+            Style
+            <br />
+            Vault
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mx-auto mt-6 max-w-md text-lg text-muted-foreground">
+            精选组件样式与页面模板，日常开发的视觉灵感来源
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* 组件分类 */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-12">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-xl font-semibold">组件</h2>
+          <Link
+            href="/components"
+            className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            查看全部 <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
-      </main>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {componentCategories.map((item) => (
+            <CategoryCard key={item.href} item={item} />
+          ))}
+        </div>
+      </section>
+
+      {/* 模板分类 */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pb-20">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-xl font-semibold">页面模板</h2>
+          <Link
+            href="/templates"
+            className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            查看全部 <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {templateCategories.map((item) => (
+            <CategoryCard key={item.href} item={item} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
