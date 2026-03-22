@@ -47,14 +47,14 @@ export function PromptModal({ open, onOpenChange, style }: PromptModalProps) {
             ) : (
               <Moon className="h-3 w-3" />
             )}
-            {style.defaultMode === "light" ? "Light Mode" : "Dark Mode"}
+            {style.defaultMode === "light" ? "浅色模式" : "深色模式"}
           </Badge>
           <Badge variant="secondary" className="gap-1 text-xs">
             <Type className="h-3 w-3" />
             {style.typography.charAt(0).toUpperCase() + style.typography.slice(1)}
           </Badge>
           <span className="text-xs text-muted-foreground ml-auto">
-            {style.prompt.length.toLocaleString()} characters
+            {style.prompt.length.toLocaleString()} 字符
           </span>
         </div>
 
@@ -77,7 +77,7 @@ export function PromptModal({ open, onOpenChange, style }: PromptModalProps) {
         <div className="flex justify-end pt-2">
           <Button onClick={handleCopy} className="gap-2">
             <Copy className="h-4 w-4" />
-            Copy Prompt
+            复制提示词
           </Button>
         </div>
       </DialogContent>

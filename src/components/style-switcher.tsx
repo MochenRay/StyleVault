@@ -80,9 +80,9 @@ export function StyleSwitcher() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/50 px-5 py-4">
               <div>
-                <h3 className="text-sm font-semibold">Design Styles</h3>
+                <h3 className="text-sm font-semibold">设计风格</h3>
                 <p className="text-xs text-muted-foreground">
-                  {allStyles.length} unique aesthetics
+                  {allStyles.length} 种视觉风格
                 </p>
               </div>
               <button
@@ -96,7 +96,7 @@ export function StyleSwitcher() {
             {/* 当前风格 */}
             <div className="border-b border-border/50 px-5 py-3">
               <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                Current
+                当前风格
               </p>
               <div className="flex items-center gap-3">
                 <StyleSwatch style={currentStyle} />
@@ -108,7 +108,7 @@ export function StyleSwitcher() {
                     ) : (
                       <Moon className="h-3 w-3" />
                     )}
-                    {currentStyle.defaultMode === "light" ? "Light" : "Dark"} · {currentStyle.typography}
+                    {currentStyle.defaultMode === "light" ? "浅色" : "深色"} · {currentStyle.typography}
                   </p>
                 </div>
                 <button
@@ -116,7 +116,7 @@ export function StyleSwitcher() {
                   className="flex items-center gap-1 rounded-md border border-border/50 px-2.5 py-1 text-xs transition-colors hover:bg-secondary"
                 >
                   <FileText className="h-3 w-3" />
-                  Prompt
+                  提示词
                 </button>
               </div>
             </div>
@@ -125,7 +125,7 @@ export function StyleSwitcher() {
             <div className="border-b border-border/50 px-5 py-3 space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
-                  MODE
+                  模式
                 </span>
                 <div className="flex gap-1">
                   {(["all", "light", "dark"] as const).map((m) => (
@@ -139,10 +139,10 @@ export function StyleSwitcher() {
                           : "text-muted-foreground hover:text-foreground"
                       )}
                     >
-                      {m === "all" ? "All" : m === "light" ? (
-                        <span className="flex items-center gap-1"><Sun className="h-3 w-3" />Light</span>
+                      {m === "all" ? "全部" : m === "light" ? (
+                        <span className="flex items-center gap-1"><Sun className="h-3 w-3" />浅色</span>
                       ) : (
-                        <span className="flex items-center gap-1"><Moon className="h-3 w-3" />Dark</span>
+                        <span className="flex items-center gap-1"><Moon className="h-3 w-3" />深色</span>
                       )}
                     </button>
                   ))}
@@ -150,7 +150,7 @@ export function StyleSwitcher() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
-                  TYPE
+                  字体
                 </span>
                 <div className="flex gap-1">
                   {(["all", "sans", "serif", "mono"] as const).map((t) => (
@@ -164,7 +164,7 @@ export function StyleSwitcher() {
                           : "text-muted-foreground hover:text-foreground"
                       )}
                     >
-                      {t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1)}
+                      {t === "all" ? "全部" : t === "sans" ? "无衬线" : t === "serif" ? "衬线" : "等宽"}
                     </button>
                   ))}
                 </div>
@@ -193,7 +193,7 @@ export function StyleSwitcher() {
                       ) : (
                         <Moon className="h-3 w-3" />
                       )}
-                      {style.defaultMode === "light" ? "Light" : "Dark"} · {style.typography}
+                      {style.defaultMode === "light" ? "浅色" : "深色"} · {style.typography}
                     </p>
                   </div>
                   {currentStyle.id === style.id && (

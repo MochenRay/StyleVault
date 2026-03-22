@@ -21,14 +21,14 @@ export function SiteHeader() {
             className="flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <Blocks className="h-4 w-4" />
-            Components
+            组件
           </Link>
           <Link
             href="/templates"
             className="flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <LayoutTemplate className="h-4 w-4" />
-            Templates
+            模板
           </Link>
           <div className="ml-2 h-5 w-px bg-border" />
           <ThemeToggle />
