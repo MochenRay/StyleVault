@@ -4,6 +4,8 @@ import { TabsDemos } from "@/components/examples/navigation/tabs-demos";
 import { BreadcrumbDemos } from "@/components/examples/navigation/breadcrumb-demos";
 import { CommandPalette } from "@/components/examples/navigation/command-palette";
 import { PaginationDemos } from "@/components/examples/navigation/pagination-demos";
+import { DropdownMenuDemo } from "@/components/examples/navigation/dropdown-menu-demo";
+import { MenubarDemo } from "@/components/examples/navigation/menubar-demo";
 
 export default function NavigationPage() {
   return (
@@ -11,7 +13,7 @@ export default function NavigationPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold">导航</h1>
         <p className="mt-2 text-muted-foreground">
-          侧边栏、标签页、面包屑、命令面板、分页等导航组件
+          侧边栏、标签页、面包屑、命令面板、分页、下拉菜单等导航组件
         </p>
       </div>
 
@@ -49,6 +51,20 @@ export default function NavigationPage() {
           description="数字分页与简洁分页"
         >
           <PaginationDemos />
+        </ComponentCard>
+
+        <ComponentCard
+          title="下拉菜单"
+          description="基础菜单、嵌套子菜单、带 checkbox/radio"
+        >
+          <DropdownMenuDemo />
+        </ComponentCard>
+
+        <ComponentCard
+          title="菜单栏"
+          description="编辑器风格菜单栏，带快捷键标注"
+        >
+          <MenubarDemo />
         </ComponentCard>
       </div>
     </div>

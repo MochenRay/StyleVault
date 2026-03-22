@@ -4,6 +4,9 @@ import { ToastDemos } from "@/components/examples/feedback/toast-demos";
 import { ProgressDemos } from "@/components/examples/feedback/progress-demos";
 import { SkeletonDemos } from "@/components/examples/feedback/skeleton-demos";
 import { AlertDemos } from "@/components/examples/feedback/alert-demos";
+import { DrawerDemo } from "@/components/examples/feedback/drawer-demo";
+import { PopoverDemo } from "@/components/examples/feedback/popover-demo";
+import { EmptyState } from "@/components/examples/feedback/empty-state";
 
 export default function FeedbackPage() {
   return (
@@ -11,7 +14,7 @@ export default function FeedbackPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold">反馈</h1>
         <p className="mt-2 text-muted-foreground">
-          弹窗、Toast、进度条、骨架屏、提示等反馈组件
+          弹窗、Toast、抽屉、弹出层、进度条、骨架屏、空状态等反馈组件
         </p>
       </div>
 
@@ -24,10 +27,24 @@ export default function FeedbackPage() {
         </ComponentCard>
 
         <ComponentCard
+          title="抽屉面板"
+          description="右侧详情、底部操作、左侧导航、带表单"
+        >
+          <DrawerDemo />
+        </ComponentCard>
+
+        <ComponentCard
           title="Toast 通知"
           description="成功、错误、信息、带撤销操作"
         >
           <ToastDemos />
+        </ComponentCard>
+
+        <ComponentCard
+          title="弹出层"
+          description="点击触发、带表单、多方向定位"
+        >
+          <PopoverDemo />
         </ComponentCard>
 
         <ComponentCard
@@ -49,6 +66,13 @@ export default function FeedbackPage() {
           description="信息、成功、警告、错误四种提示样式"
         >
           <AlertDemos />
+        </ComponentCard>
+
+        <ComponentCard
+          title="空状态"
+          description="无数据、搜索无结果、错误状态、首次引导"
+        >
+          <EmptyState />
         </ComponentCard>
       </div>
     </div>

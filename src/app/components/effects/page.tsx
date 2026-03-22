@@ -4,6 +4,7 @@ import { HoverEffects } from "@/components/examples/effects/hover-effects";
 import { MagneticButton } from "@/components/examples/effects/magnetic-button";
 import { PageTransition } from "@/components/examples/effects/page-transition";
 import { ParallaxDemo } from "@/components/examples/effects/parallax-demo";
+import { KineticTypography } from "@/components/examples/effects/kinetic-typography";
 
 export default function EffectsPage() {
   return (
@@ -11,7 +12,7 @@ export default function EffectsPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold">动效</h1>
         <p className="mt-2 text-muted-foreground">
-          滚动动画、hover 效果、磁性按钮、页面过渡、视差滚动
+          滚动动画、hover 效果、磁性按钮、页面过渡、视差滚动、动态排版
         </p>
       </div>
 
@@ -49,6 +50,13 @@ export default function EffectsPage() {
           description="多层元素以不同速度移动，创造深度感"
         >
           <ParallaxDemo />
+        </ComponentCard>
+
+        <ComponentCard
+          title="动态排版"
+          description="逐字出现、打字机效果、单词高亮轮播"
+        >
+          <KineticTypography />
         </ComponentCard>
       </div>
     </div>

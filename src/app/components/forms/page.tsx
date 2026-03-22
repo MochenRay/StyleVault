@@ -6,6 +6,9 @@ import { FileUploadDemo } from "@/components/examples/forms/file-upload";
 import { ToggleSwitches } from "@/components/examples/forms/toggle-switches";
 import { SliderDemos } from "@/components/examples/forms/slider-demos";
 import { FormValidation } from "@/components/examples/forms/form-validation";
+import { ComboboxDemo } from "@/components/examples/forms/combobox-demo";
+import { OtpInputDemo } from "@/components/examples/forms/otp-input";
+import { MultiStepWizard } from "@/components/examples/forms/multi-step-wizard";
 
 export default function FormsPage() {
   return (
@@ -30,6 +33,13 @@ export default function FormsPage() {
           description="基础下拉、分组下拉、禁用、默认值"
         >
           <SelectDemos />
+        </ComponentCard>
+
+        <ComponentCard
+          title="可搜索下拉"
+          description="带搜索过滤的下拉选择、多选、分组"
+        >
+          <ComboboxDemo />
         </ComponentCard>
 
         <ComponentCard title="日期选择器" description="弹窗式与内联日历">
@@ -58,10 +68,24 @@ export default function FormsPage() {
         </ComponentCard>
 
         <ComponentCard
+          title="验证码输入"
+          description="4 位/6 位验证码、带分隔符样式"
+        >
+          <OtpInputDemo />
+        </ComponentCard>
+
+        <ComponentCard
           title="表单校验"
           description="完整表单示例：必填校验、格式验证、提交反馈"
         >
           <FormValidation />
+        </ComponentCard>
+
+        <ComponentCard
+          title="多步骤向导"
+          description="分步表单流程：步骤指示器、前进/后退、数据保持"
+        >
+          <MultiStepWizard />
         </ComponentCard>
       </div>
     </div>
