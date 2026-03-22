@@ -479,3 +479,95 @@
   box-shadow: 0 8px 32px oklch(0 0 0 / 12%);
   border-color: oklch(1 0 0 / 50%);
 }
+
+/* ========== Soft UI / Neumorphism ========== */
+:root.soft-ui {
+  --radius: 1rem;
+  --primary: oklch(0.58 0.22 270);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.87 0.01 250);
+  --secondary-foreground: oklch(0.25 0.02 250);
+  --background: oklch(0.91 0.01 250);
+  --foreground: oklch(0.25 0.02 250);
+  --card: oklch(0.91 0.01 250);
+  --card-foreground: oklch(0.25 0.02 250);
+  --popover: oklch(0.91 0.01 250);
+  --popover-foreground: oklch(0.25 0.02 250);
+  --muted: oklch(0.85 0.01 250);
+  --muted-foreground: oklch(0.5 0.02 250);
+  --accent: oklch(0.65 0.18 330);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.55 0.22 25);
+  --border: oklch(0.91 0.01 250);
+  --input: oklch(0.91 0.01 250);
+  --ring: oklch(0.58 0.22 270);
+  --chart-1: oklch(0.58 0.22 270);
+  --chart-2: oklch(0.65 0.18 330);
+  --chart-3: oklch(0.6 0.15 150);
+  --chart-4: oklch(0.7 0.15 60);
+  --chart-5: oklch(0.55 0.2 200);
+}
+.dark.soft-ui {
+  --background: oklch(0.2 0.01 250);
+  --foreground: oklch(0.88 0.01 250);
+  --card: oklch(0.2 0.01 250);
+  --card-foreground: oklch(0.88 0.01 250);
+  --popover: oklch(0.2 0.01 250);
+  --popover-foreground: oklch(0.88 0.01 250);
+  --secondary: oklch(0.25 0.01 250);
+  --secondary-foreground: oklch(0.88 0.01 250);
+  --muted: oklch(0.25 0.01 250);
+  --muted-foreground: oklch(0.6 0.01 250);
+  --border: oklch(0.2 0.01 250);
+  --input: oklch(0.2 0.01 250);
+}
+.soft-ui [data-slot="card"] {
+  border-color: transparent;
+  box-shadow:
+    8px 8px 16px oklch(0 0 0 / 12%),
+    -8px -8px 16px oklch(1 0 0 / 80%);
+}
+.dark.soft-ui [data-slot="card"] {
+  box-shadow:
+    8px 8px 16px oklch(0 0 0 / 30%),
+    -8px -8px 16px oklch(1 0 0 / 5%);
+}
+.soft-ui [data-slot="input"],
+.soft-ui [data-slot="textarea"],
+.soft-ui [data-slot="select-trigger"] {
+  border-color: transparent;
+  box-shadow:
+    inset 4px 4px 8px oklch(0 0 0 / 10%),
+    inset -4px -4px 8px oklch(1 0 0 / 70%);
+}
+.dark.soft-ui [data-slot="input"],
+.dark.soft-ui [data-slot="textarea"],
+.dark.soft-ui [data-slot="select-trigger"] {
+  box-shadow:
+    inset 4px 4px 8px oklch(0 0 0 / 25%),
+    inset -4px -4px 8px oklch(1 0 0 / 3%);
+}
+.soft-ui [data-slot="button"] {
+  border-color: transparent;
+  box-shadow:
+    4px 4px 10px oklch(0 0 0 / 10%),
+    -4px -4px 10px oklch(1 0 0 / 70%);
+}
+.soft-ui [data-slot="button"]:active {
+  box-shadow:
+    inset 4px 4px 8px oklch(0 0 0 / 10%),
+    inset -4px -4px 8px oklch(1 0 0 / 70%);
+}
+.soft-ui .card-glow:hover {
+  box-shadow:
+    12px 12px 20px oklch(0 0 0 / 15%),
+    -12px -12px 20px oklch(1 0 0 / 85%);
+}
+.soft-ui [data-slot="dialog-content"],
+.soft-ui [data-slot="popover-content"],
+.soft-ui [data-slot="sheet-content"] {
+  border-color: transparent;
+  box-shadow:
+    12px 12px 24px oklch(0 0 0 / 15%),
+    -12px -12px 24px oklch(1 0 0 / 80%);
+}

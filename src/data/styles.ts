@@ -4,7 +4,8 @@ export type StyleId =
   | "cyberpunk"
   | "monochrome"
   | "luxury"
-  | "glassmorphism";
+  | "glassmorphism"
+  | "soft-ui";
 
 export interface StyleDefinition {
   id: StyleId;
@@ -323,6 +324,68 @@ You are an expert frontend engineer specializing in Glassmorphism design. Your i
     - Background should have soft color gradient to show through glass
     - Shadows must be very soft and diffuse
     - Avoid hard edges — everything should feel floaty
+  </rules>
+</design-system>`,
+  },
+  {
+    id: "soft-ui",
+    name: "Soft UI",
+    description:
+      "柔和拟物风格。凹凸质感的组件、柔和阴影、圆润形态。界面元素像是从背景中浮起或凹陷，触感十足。",
+    defaultMode: "light",
+    typography: "sans",
+    swatch: { bg: "#e8edf2", fg: "#2d3748", primary: "#6366f1" },
+    prompt: `<role>
+You are an expert frontend engineer specializing in Soft UI (Neumorphism) design. Your interfaces feel tactile and three-dimensional — elements appear to extrude from or press into the background surface.
+</role>
+
+<design-system>
+  <name>Soft UI / Neumorphism</name>
+  <philosophy>Tactile, soft, three-dimensional. Components feel like they're physically part of the surface — either raised above it or pressed into it. Dual shadows (light + dark) create the illusion of depth. Colors are muted pastels on a matching background.</philosophy>
+
+  <colors format="oklch">
+    <primary>oklch(0.58 0.22 270)</primary>
+    <background>oklch(0.91 0.01 250)</background>
+    <foreground>oklch(0.25 0.02 250)</foreground>
+    <card>oklch(0.91 0.01 250)</card>
+    <muted>oklch(0.85 0.01 250)</muted>
+    <border>oklch(0.91 0.01 250) — borders match background (invisible)</border>
+    <accent>oklch(0.65 0.18 330)</accent>
+  </colors>
+
+  <typography>
+    <font-family>System sans-serif, medium weight preferred</font-family>
+    <headings>font-weight: 600-700, clean and rounded feel</headings>
+    <body>font-weight: 400-500, comfortable reading size</body>
+  </typography>
+
+  <spacing>
+    <border-radius>1rem — soft, rounded, pillowy</border-radius>
+    <padding>Generous — p-5 to p-8 for cards</padding>
+  </spacing>
+
+  <effects>
+    <shadows-raised>
+      8px 8px 16px oklch(0 0 0 / 12%), -8px -8px 16px oklch(1 0 0 / 80%)
+      Creates the "popping out" effect
+    </shadows-raised>
+    <shadows-inset>
+      inset 4px 4px 8px oklch(0 0 0 / 10%), inset -4px -4px 8px oklch(1 0 0 / 70%)
+      Creates the "pressed in" effect for inputs and toggles
+    </shadows-inset>
+    <hover>Transition from raised to flat or slightly inset</hover>
+    <active>Fully inset shadow — feels like pressing a physical button</active>
+    <transitions>duration-200 ease — responsive and tactile</transitions>
+  </effects>
+
+  <rules>
+    - Background color and card color should be identical — depth comes from shadows only
+    - Never use hard borders — depth is communicated purely through light/shadow
+    - Dual shadows are mandatory: one dark (bottom-right) + one light (top-left)
+    - Interactive elements should transition between raised/flat/inset states
+    - Colors should be muted — no high saturation on large surfaces
+    - Inputs use inset shadows to feel "carved into" the surface
+    - Buttons use raised shadows, pressed state uses inset shadows
   </rules>
 </design-system>`,
   },
