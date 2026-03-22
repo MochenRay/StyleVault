@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useStyle } from "@/components/style-provider";
 import { PromptModal } from "@/components/prompt-modal";
 import { cn } from "@/lib/utils";
-import { Palette, FileText, X, Sun, Moon, ChevronRight } from "lucide-react";
+import { Palette, FileText, X, Sun, Moon } from "lucide-react";
 import type { StyleDefinition } from "@/data/styles";
 
 type ModeFilter = "all" | "light" | "dark";
@@ -28,6 +28,7 @@ export function StyleSwitcher() {
   const [promptOpen, setPromptOpen] = useState(false);
   const [modeFilter, setModeFilter] = useState<ModeFilter>("all");
   const [typoFilter, setTypoFilter] = useState<TypoFilter>("all");
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const filtered = allStyles.filter((s) => {
     if (modeFilter !== "all" && s.defaultMode !== modeFilter) return false;
@@ -35,159 +36,180 @@ export function StyleSwitcher() {
     return true;
   });
 
+  // 点击面板外区域关闭
+  useEffect(() => {
+    if (!panelOpen) return;
+    function handleClick(e: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        setPanelOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [panelOpen]);
+
   return (
     <>
-      {/* 浮动底栏 */}
-      <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
-        <div className="flex items-center gap-1 rounded-full border border-border/50 bg-card/90 backdrop-blur-md px-2 py-1.5 shadow-lg">
-          <span className="px-3 text-xs font-semibold tracking-wide opacity-70">
-            style/vault
-          </span>
+      {/* 侧边浮动触发按钮 */}
+      <button
+        onClick={() => setPanelOpen(!panelOpen)}
+        className={cn(
+          "fixed right-4 top-1/2 z-50 -translate-y-1/2",
+          "flex h-11 w-11 items-center justify-center",
+          "rounded-xl border-2 border-foreground/20 bg-card shadow-lg",
+          "transition-all duration-200",
+          "hover:border-primary hover:shadow-xl hover:scale-105",
+          panelOpen && "opacity-0 pointer-events-none"
+        )}
+        aria-label="切换设计风格"
+      >
+        <Palette className="h-5 w-5 text-foreground" />
+      </button>
 
-          <div className="h-4 w-px bg-border/50" />
-
-          <button
-            onClick={() => setPanelOpen(!panelOpen)}
-            className="flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-secondary"
+      {/* 侧边面板 */}
+      <AnimatePresence>
+        {panelOpen && (
+          <motion.div
+            ref={panelRef}
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed right-0 top-0 z-50 h-full w-[320px] border-l border-border/50 bg-card/95 backdrop-blur-md shadow-2xl flex flex-col"
           >
-            <StyleSwatch style={currentStyle} />
-            <span className="font-medium">{currentStyle.name}</span>
-          </button>
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-border/50 px-5 py-4">
+              <div>
+                <h3 className="text-sm font-semibold">Design Styles</h3>
+                <p className="text-xs text-muted-foreground">
+                  {allStyles.length} unique aesthetics
+                </p>
+              </div>
+              <button
+                onClick={() => setPanelOpen(false)}
+                className="rounded-md p-1.5 hover:bg-secondary transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
-          <div className="h-4 w-px bg-border/50" />
-
-          <button
-            onClick={() => setPromptOpen(true)}
-            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-colors hover:bg-secondary"
-          >
-            <FileText className="h-3.5 w-3.5" />
-            Prompt
-          </button>
-
-          <button
-            onClick={() => setPanelOpen(!panelOpen)}
-            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-colors hover:bg-secondary"
-          >
-            <Palette className="h-3.5 w-3.5" />
-            Styles
-          </button>
-        </div>
-
-        {/* 风格面板 */}
-        <AnimatePresence>
-          {panelOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-[320px] rounded-xl border border-border/50 bg-card/95 backdrop-blur-md shadow-2xl overflow-hidden"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-border/50 px-4 py-3">
-                <div>
-                  <h3 className="text-sm font-semibold">Design Styles</h3>
-                  <p className="text-xs text-muted-foreground">
-                    {allStyles.length} unique aesthetics
+            {/* 当前风格 */}
+            <div className="border-b border-border/50 px-5 py-3">
+              <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                Current
+              </p>
+              <div className="flex items-center gap-3">
+                <StyleSwatch style={currentStyle} />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold">{currentStyle.name}</p>
+                  <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+                    {currentStyle.defaultMode === "light" ? (
+                      <Sun className="h-3 w-3" />
+                    ) : (
+                      <Moon className="h-3 w-3" />
+                    )}
+                    {currentStyle.defaultMode === "light" ? "Light" : "Dark"} · {currentStyle.typography}
                   </p>
                 </div>
                 <button
-                  onClick={() => setPanelOpen(false)}
-                  className="rounded-md p-1 hover:bg-secondary transition-colors"
+                  onClick={() => setPromptOpen(true)}
+                  className="flex items-center gap-1 rounded-md border border-border/50 px-2.5 py-1 text-xs transition-colors hover:bg-secondary"
                 >
-                  <X className="h-4 w-4" />
+                  <FileText className="h-3 w-3" />
+                  Prompt
                 </button>
               </div>
+            </div>
 
-              {/* Filters */}
-              <div className="border-b border-border/50 px-4 py-2.5 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
-                    MODE
-                  </span>
-                  <div className="flex gap-1">
-                    {(["all", "light", "dark"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setModeFilter(m)}
-                        className={cn(
-                          "rounded-md px-2 py-0.5 text-xs transition-colors",
-                          modeFilter === m
-                            ? "bg-foreground text-background"
-                            : "text-muted-foreground hover:text-foreground"
-                        )}
-                      >
-                        {m === "all" ? "All" : m === "light" ? (
-                          <span className="flex items-center gap-1"><Sun className="h-3 w-3" />Light</span>
-                        ) : (
-                          <span className="flex items-center gap-1"><Moon className="h-3 w-3" />Dark</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
-                    TYPE
-                  </span>
-                  <div className="flex gap-1">
-                    {(["all", "sans", "serif", "mono"] as const).map((t) => (
-                      <button
-                        key={t}
-                        onClick={() => setTypoFilter(t)}
-                        className={cn(
-                          "rounded-md px-2 py-0.5 text-xs capitalize transition-colors",
-                          typoFilter === t
-                            ? "bg-foreground text-background"
-                            : "text-muted-foreground hover:text-foreground"
-                        )}
-                      >
-                        {t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1)}
-                      </button>
-                    ))}
-                  </div>
+            {/* Filters */}
+            <div className="border-b border-border/50 px-5 py-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
+                  MODE
+                </span>
+                <div className="flex gap-1">
+                  {(["all", "light", "dark"] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setModeFilter(m)}
+                      className={cn(
+                        "rounded-md px-2 py-0.5 text-xs transition-colors",
+                        modeFilter === m
+                          ? "bg-foreground text-background"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {m === "all" ? "All" : m === "light" ? (
+                        <span className="flex items-center gap-1"><Sun className="h-3 w-3" />Light</span>
+                      ) : (
+                        <span className="flex items-center gap-1"><Moon className="h-3 w-3" />Dark</span>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {/* Style List */}
-              <div className="max-h-[360px] overflow-y-auto py-1">
-                {filtered.map((style) => (
-                  <button
-                    key={style.id}
-                    onClick={() => {
-                      setStyle(style.id);
-                      setPanelOpen(false);
-                    }}
-                    className={cn(
-                      "flex w-full items-center gap-3 px-4 py-2.5 transition-colors hover:bg-secondary/50",
-                      currentStyle.id === style.id && "bg-secondary"
-                    )}
-                  >
-                    <StyleSwatch style={style} />
-                    <div className="flex-1 text-left">
-                      <p className="text-sm font-medium">{style.name}</p>
-                      <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                        {style.defaultMode === "light" ? (
-                          <Sun className="h-3 w-3" />
-                        ) : (
-                          <Moon className="h-3 w-3" />
-                        )}
-                        {style.defaultMode === "light" ? "Light" : "Dark"}
-                      </p>
-                    </div>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
-                  </button>
-                ))}
-                {filtered.length === 0 && (
-                  <p className="py-6 text-center text-sm text-muted-foreground">
-                    无匹配风格
-                  </p>
-                )}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider w-12">
+                  TYPE
+                </span>
+                <div className="flex gap-1">
+                  {(["all", "sans", "serif", "mono"] as const).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTypoFilter(t)}
+                      className={cn(
+                        "rounded-md px-2 py-0.5 text-xs capitalize transition-colors",
+                        typoFilter === t
+                          ? "bg-foreground text-background"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {t === "all" ? "All" : t.charAt(0).toUpperCase() + t.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            </div>
+
+            {/* Style List */}
+            <div className="flex-1 overflow-y-auto py-1">
+              {filtered.map((style) => (
+                <button
+                  key={style.id}
+                  onClick={() => {
+                    setStyle(style.id);
+                  }}
+                  className={cn(
+                    "flex w-full items-center gap-3 px-5 py-3 transition-colors hover:bg-secondary/50",
+                    currentStyle.id === style.id && "bg-secondary"
+                  )}
+                >
+                  <StyleSwatch style={style} />
+                  <div className="flex-1 text-left">
+                    <p className="text-sm font-medium">{style.name}</p>
+                    <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                      {style.defaultMode === "light" ? (
+                        <Sun className="h-3 w-3" />
+                      ) : (
+                        <Moon className="h-3 w-3" />
+                      )}
+                      {style.defaultMode === "light" ? "Light" : "Dark"} · {style.typography}
+                    </p>
+                  </div>
+                  {currentStyle.id === style.id && (
+                    <div className="h-2 w-2 rounded-full bg-primary" />
+                  )}
+                </button>
+              ))}
+              {filtered.length === 0 && (
+                <p className="py-6 text-center text-sm text-muted-foreground">
+                  无匹配风格
+                </p>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Prompt Modal */}
       <PromptModal
