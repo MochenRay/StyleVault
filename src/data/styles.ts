@@ -5,6 +5,7 @@ export type StyleId =
   | "monochrome"
   | "luxury"
   | "glassmorphism"
+  | "liquid-glass"
   | "soft-ui";
 
 export interface StyleDefinition {
@@ -324,6 +325,59 @@ You are an expert frontend engineer specializing in Glassmorphism design. Your i
     - Background should have soft color gradient to show through glass
     - Shadows must be very soft and diffuse
     - Avoid hard edges — everything should feel floaty
+  </rules>
+</design-system>`,
+  },
+  {
+    id: "liquid-glass",
+    name: "Liquid Glass",
+    description:
+      "新一代动态玻璃风格。半透明控制层、流体高光、柔和折射和内容优先的层级关系，比传统 glassmorphism 更有“活性”。",
+    defaultMode: "light",
+    typography: "sans",
+    swatch: { bg: "#e6edff", fg: "#111827", primary: "#6d8dff" },
+    prompt: `<role>
+You are an expert frontend engineer building interfaces inspired by modern liquid-glass design systems. Your goal is to create UI that feels translucent, adaptive, and alive without sacrificing clarity.
+</role>
+
+<design-system>
+  <name>Liquid Glass</name>
+  <philosophy>Controls float above content as a distinct translucent layer. Materials feel responsive, lightly refractive, and softly illuminated. Use depth and motion to create focus, not decoration overload.</philosophy>
+
+  <colors format="oklch">
+    <primary>oklch(0.72 0.16 272)</primary>
+    <background>oklch(0.95 0.015 255)</background>
+    <foreground>oklch(0.2 0.02 255)</foreground>
+    <card>oklch(1 0 0 / 55%)</card>
+    <muted>oklch(0.9 0.02 255)</muted>
+    <border>oklch(1 0 0 / 55%)</border>
+    <accent>oklch(0.82 0.1 200)</accent>
+  </colors>
+
+  <typography>
+    <font-family>Geist Sans or a clean neo-grotesk sans-serif</font-family>
+    <headings>font-weight: 600-700, spacious but not loud</headings>
+    <body>font-weight: 400-500, optimized for clarity over chrome</body>
+  </typography>
+
+  <spacing>
+    <border-radius>1.25rem to 1.75rem on floating surfaces</border-radius>
+    <padding>Comfortable, with breathing room around controls and cards</padding>
+  </spacing>
+
+  <effects>
+    <material>Backdrop blur with light transparency and subtle saturation boost</material>
+    <highlights>Soft internal highlights and edge glows that react to hover</highlights>
+    <motion>Small fluid position changes, gentle scaling, no abrupt snaps</motion>
+    <hierarchy>Keep content readable; controls should float above it, not drown it</hierarchy>
+  </effects>
+
+  <rules>
+    - Use glass on controls, toolbars, cards, dialogs, and popovers rather than every background surface
+    - Avoid opaque fills that break the material illusion
+    - Prefer adaptive tints and edge highlights over heavy drop shadows
+    - Use rounded geometry and layered translucency to create depth
+    - Let content remain the visual priority
   </rules>
 </design-system>`,
   },

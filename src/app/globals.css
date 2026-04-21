@@ -480,6 +480,99 @@
   border-color: oklch(1 0 0 / 50%);
 }
 
+/* ═══════════════════════════════════════════════════
+   风格覆盖 — Liquid Glass
+   ═══════════════════════════════════════════════════ */
+:root.liquid-glass {
+  --radius: 1.4rem;
+  --primary: oklch(0.72 0.16 272);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.92 0.015 255 / 72%);
+  --secondary-foreground: oklch(0.22 0.02 255);
+  --background: oklch(0.95 0.015 255);
+  --foreground: oklch(0.2 0.02 255);
+  --card: oklch(1 0 0 / 55%);
+  --card-foreground: oklch(0.2 0.02 255);
+  --popover: oklch(1 0 0 / 68%);
+  --popover-foreground: oklch(0.2 0.02 255);
+  --muted: oklch(0.91 0.015 255 / 78%);
+  --muted-foreground: oklch(0.46 0.015 255);
+  --accent: oklch(0.82 0.1 200);
+  --accent-foreground: oklch(0.18 0.02 255);
+  --destructive: oklch(0.61 0.24 20);
+  --border: oklch(1 0 0 / 55%);
+  --input: oklch(1 0 0 / 48%);
+  --ring: oklch(0.72 0.16 272 / 70%);
+  --chart-1: oklch(0.72 0.16 272);
+  --chart-2: oklch(0.78 0.11 210);
+  --chart-3: oklch(0.84 0.08 160);
+  --chart-4: oklch(0.78 0.12 330);
+  --chart-5: oklch(0.76 0.13 80);
+}
+.dark.liquid-glass {
+  --background: oklch(0.13 0.02 255);
+  --foreground: oklch(0.94 0.01 255);
+  --card: oklch(0.18 0.02 255 / 54%);
+  --card-foreground: oklch(0.94 0.01 255);
+  --popover: oklch(0.18 0.02 255 / 68%);
+  --popover-foreground: oklch(0.94 0.01 255);
+  --secondary: oklch(0.24 0.02 255 / 60%);
+  --secondary-foreground: oklch(0.9 0.01 255);
+  --muted: oklch(0.24 0.02 255 / 64%);
+  --muted-foreground: oklch(0.7 0.01 255);
+  --border: oklch(1 0 0 / 16%);
+  --input: oklch(1 0 0 / 12%);
+}
+
+.liquid-glass body {
+  background-image:
+    radial-gradient(circle at top left, oklch(0.96 0.04 250) 0%, transparent 28%),
+    radial-gradient(circle at 80% 12%, oklch(0.92 0.06 210 / 70%) 0%, transparent 26%),
+    linear-gradient(180deg, oklch(0.98 0.01 255), oklch(0.93 0.015 255));
+}
+.dark.liquid-glass body {
+  background-image:
+    radial-gradient(circle at top left, oklch(0.32 0.06 255 / 55%) 0%, transparent 25%),
+    radial-gradient(circle at 80% 10%, oklch(0.26 0.05 210 / 45%) 0%, transparent 24%),
+    linear-gradient(180deg, oklch(0.16 0.02 255), oklch(0.1 0.015 255));
+}
+.liquid-glass [data-slot="card"],
+.liquid-glass [data-slot="dialog-content"],
+.liquid-glass [data-slot="popover-content"],
+.liquid-glass [data-slot="sheet-content"] {
+  border-color: oklch(1 0 0 / 52%);
+  background-image:
+    linear-gradient(180deg, oklch(1 0 0 / 38%), transparent 40%),
+    linear-gradient(135deg, oklch(1 0 0 / 26%), oklch(1 0 0 / 10%));
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 60%),
+    0 24px 60px oklch(0.38 0.04 250 / 12%);
+}
+.liquid-glass [data-slot="button"],
+.liquid-glass [data-slot="input"],
+.liquid-glass [data-slot="textarea"],
+.liquid-glass [data-slot="select-trigger"] {
+  border-color: oklch(1 0 0 / 52%);
+  background-image:
+    linear-gradient(180deg, oklch(1 0 0 / 34%), transparent 100%);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 55%),
+    0 12px 32px oklch(0.42 0.04 250 / 10%);
+}
+.liquid-glass [data-slot="button"]:hover {
+  transform: translateY(-1px);
+}
+.liquid-glass .card-glow:hover {
+  border-color: oklch(1 0 0 / 65%);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 70%),
+    0 24px 70px oklch(0.45 0.06 255 / 16%);
+}
+
 /* ========== Soft UI / Neumorphism ========== */
 :root.soft-ui {
   --radius: 1rem;

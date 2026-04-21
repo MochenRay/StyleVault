@@ -3,9 +3,9 @@
 import {
   createContext,
   useContext,
-  useState,
   useEffect,
   useCallback,
+  useSyncExternalStore,
 } from "react";
 import { useTheme } from "next-themes";
 import { styles, getStyleById } from "@/data/styles";
@@ -27,35 +27,66 @@ const STORAGE_KEY = "stylevault-style";
 const ALL_STYLE_IDS: StyleId[] = styles
   .filter((s) => s.id !== "default")
   .map((s) => s.id);
+const STYLE_STORE_EVENT = "stylevault-style-change";
+
+function readStoredStyle(): StyleId {
+  if (typeof window === "undefined") {
+    return "default";
+  }
+
+  const stored = localStorage.getItem(STORAGE_KEY) as StyleId | null;
+  return stored && styles.some((style) => style.id === stored)
+    ? stored
+    : "default";
+}
+
+function subscribeToStyle(listener: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  const handleStyleChange = () => listener();
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY) {
+      listener();
+    }
+  };
+
+  window.addEventListener(STYLE_STORE_EVENT, handleStyleChange);
+  window.addEventListener("storage", handleStorage);
+
+  return () => {
+    window.removeEventListener(STYLE_STORE_EVENT, handleStyleChange);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
 
 export function StyleProvider({ children }: { children: React.ReactNode }) {
-  const [styleId, setStyleId] = useState<StyleId>("default");
+  const styleId = useSyncExternalStore<StyleId>(
+    subscribeToStyle,
+    readStoredStyle,
+    () => "default"
+  );
   const { setTheme } = useTheme();
-
-  // Restore from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as StyleId | null;
-    if (stored && styles.some((s) => s.id === stored)) {
-      applyStyleClass(stored);
-      setStyleId(stored);
-    }
-  }, []);
 
   const applyStyleClass = useCallback((id: StyleId) => {
     const el = document.documentElement;
-    // Remove all style classes
     ALL_STYLE_IDS.forEach((cls) => el.classList.remove(cls));
-    // Add new one (skip for default)
+
     if (id !== "default") {
       el.classList.add(id);
     }
   }, []);
 
+  useEffect(() => {
+    applyStyleClass(styleId);
+  }, [applyStyleClass, styleId]);
+
   const setStyle = useCallback(
     (id: StyleId) => {
       applyStyleClass(id);
-      setStyleId(id);
       localStorage.setItem(STORAGE_KEY, id);
+      window.dispatchEvent(new Event(STYLE_STORE_EVENT));
 
       // Auto-switch dark/light to the style's default mode
       const style = getStyleById(id);
