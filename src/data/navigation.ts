@@ -55,8 +55,8 @@ export const componentCategories: NavItem[] = [
     title: "动效",
     href: "/components/effects",
     icon: Sparkles,
-    description: "滚动动画、hover 效果、磁性按钮、过渡、动态排版",
-    count: 6,
+    description: "滚动动画、hover 效果、磁性按钮、过渡、动态排版、shader 渐变、卡片堆栈",
+    count: 8,
   },
 ];
 

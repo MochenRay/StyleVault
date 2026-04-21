@@ -13,7 +13,6 @@ import {
   Download,
   Command,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type CommandItem = {
   icon: typeof Home;
